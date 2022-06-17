@@ -1,29 +1,39 @@
 package database
 
 import (
-	"github.com/Durotimicodes/jumia-phone-number-task/models"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
+	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 	"log"
 )
 
-var DB *gorm.DB
+//var db *sql.DB
 
 func SetUpDBConnection() error {
 
-	//Open connection
-	db, err := gorm.Open(sqlite.Open("user-contact.db"), &gorm.Config{})
+	//Open connection, sql is hard to be bug so golang uses err handle to manage this
+	db, err := sql.Open("sqlite3", "user-contact.db")
 	if err != nil {
-		log.Printf("failed to connect database %v", err)
-		return err
+		panic(err.Error())
 	}
 
-	//Migrate Schema
-	er := db.AutoMigrate(&models.ContactVerification{})
-	if er != nil {
-		log.Printf("failed to migrate schema %v", er)
-		return er
+	query := "CREATE TABLE IF NOT EXISTS contact_verification_info (" +
+		"id INTEGER NOT NULL PRIMARY KEY," +
+		"time DATETIME NOT NULL," +
+		"mobile_number INTEGER NOT NULL," +
+		"country TEXT NOT NULL," +
+		"country_code TEXT NOT NULL," +
+		"is_valid INTEGER NOT NULL)"
+
+	//execute query
+	create, err := db.Exec(query)
+	if err != nil {
+		log.Printf("failed executing query %v", err)
+		panic(err.Error())
 	}
+
+	log.Println(create)
+
+	defer db.Close()
 
 	return nil
 }
