@@ -7,9 +7,9 @@ type User struct {
 }
 
 type ContactVerification struct {
+	id           uint   `json:"id" binding:"required"`
 	MobileNumber string `json:"mobile_number" binding:"required"`
 	Country      string `json:"country" binding:"required"`
-	CountryCode  uint   `json:"country_code" binding:"required"`
-	Valid        bool   `json:"valid" binding:"required"`
-	LocalFormat  string `json:"local_format" binding:"required"`
+	CountryCode  string `json:"country_code" binding:"required"`
+	IsValid      bool   `json:"valid" binding:"required"`
 }
