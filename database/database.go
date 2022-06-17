@@ -11,17 +11,19 @@ var DB *gorm.DB
 
 func SetUpDBConnection() error {
 
+	log.Println("Connecting Sqlite3 DB")
+
 	//Open connection
-	db, err := gorm.Open(sqlite.Open("user-contact.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("number-verification.db"), &gorm.Config{})
 	if err != nil {
-		log.Printf("failed to connect database %v", err)
+		log.Printf("Failed to connect database %v", err)
 		return err
 	}
 
 	//Migrate Schema
 	er := db.AutoMigrate(&models.ContactVerification{})
 	if er != nil {
-		log.Printf("failed to migrate schema %v", er)
+		log.Printf("Failed to migrate schema %v", er)
 		return er
 	}
 
