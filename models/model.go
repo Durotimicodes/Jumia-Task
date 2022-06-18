@@ -16,3 +16,29 @@ type ContactVerification struct {
 	CountryCode  string `json:"country_code" binding:"required"`
 	IsValid      bool   `json:"valid" binding:"required"`
 }
+
+type ValidateCountryInfo struct {
+	CountryName string
+	CountryCode string
+	RegularExp  string
+}
+
+var ValidateCountries = []ValidateCountryInfo{
+	{CountryName: "Cameroon", CountryCode: "237", RegularExp: `\(237\)\ ?[2368]\d{7,8}$`},
+
+	{CountryName: "Ethiopia", CountryCode: "251", RegularExp: `\(251\)\ ?[1-59]\d{8}$`},
+
+	{CountryName: "Morocco", CountryCode: "212", RegularExp: `\(212\)\ ?[5-9]\d{8}$`},
+
+	{CountryName: "Mozambique", CountryCode: "258", RegularExp: `\(258\)\ ?[28]\d{7,8}$`},
+
+	{CountryName: "Uganda", CountryCode: "256", RegularExp: `\(256\)\ ?\d{9}$`},
+}
+
+// ConfigureMobileNumber are mobile numbers formatted to each country
+type ConfigureMobileNumber struct {
+	Country      string
+	State        string
+	CountryCode  string
+	MobileNumber string
+}
