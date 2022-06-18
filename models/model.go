@@ -3,10 +3,10 @@ package models
 import "gorm.io/gorm"
 
 type User struct {
-	Id        uint   `json:"id" binding:"required"`
-	FirstName string `json:"first_name" binding:"required"`
-	LastName  string `json:"last_name" binding:"required"`
-	Contact   ContactVerification
+	Id        uint                `json:"id" binding:"required"`
+	FirstName string              `json:"first_name" binding:"required"`
+	LastName  string              `json:"last_name" binding:"required"`
+	Contact   ContactVerification `json:"contact" gorm:"embedded"`
 }
 
 type ContactVerification struct {
@@ -37,8 +37,8 @@ var ValidateCountries = []ValidateCountryInfo{
 
 // ConfigureMobileNumber are mobile numbers formatted to each country
 type ConfigureMobileNumber struct {
-	Country      string
-	State        string
-	CountryCode  string
-	MobileNumber string
+	Country      string `json:"country" binding:"required"`
+	State        string `json:"state" binding:"required"`
+	CountryCode  string `json:"countryCode" binding:"required"`
+	MobileNumber string `json:"mobileNumber" binding:"required"`
 }

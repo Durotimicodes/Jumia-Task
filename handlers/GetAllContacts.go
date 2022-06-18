@@ -27,3 +27,31 @@ func (h *Handler) GetAllContacts(c *gin.Context) {
 	})
 
 }
+
+// Handler abstracts methods implemented for rest requests
+//type Handler interface {
+//	// GetCountries get a list of all countries
+//	GetCountries() gin.HandlerFunc
+//
+//	// GetPhonenumbers gets all phone numbers
+//	GetPhonenumbers() gin.HandlerFunc
+//}
+
+//type impl struct {
+//	uc usecases.CustomersUsecase
+//}
+//
+//// New creates a new instance of the Handler interface
+//func New(repo database.Repository) Handler {
+//	uc := usecases.New(repo)
+//	return &impl{
+//		uc: uc,
+//	}
+//}
+//
+//func (h *impl) GetCountries() gin.HandlerFunc {
+//	return func(c *gin.Context) {
+//		c.JSON(http.StatusOK, models.AllCountries)
+//	}
+//}
+//
