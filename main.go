@@ -17,7 +17,6 @@ func main() {
 		return
 	}
 	router := gin.Default()
-	//router.Use(cors())
 
 	handler := handlers.NewHandler(database.NewSqliteDb(db))
 
