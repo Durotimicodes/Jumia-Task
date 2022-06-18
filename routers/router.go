@@ -11,6 +11,8 @@ func SetUpRouters(router *gin.Engine, h *handlers.Handler) error {
 
 	apirouter.GET("/ping", handlers.HealthCheck)
 	apirouter.GET("/all/contacts", h.GetAllContacts)
+	apirouter.GET("/user/countries", h.GetAllCountries)
+	apirouter.GET("/user/number/:state/:code", h.GetMobileNumbers)
 
 	return nil
 

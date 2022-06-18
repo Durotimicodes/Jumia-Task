@@ -8,7 +8,7 @@ import (
 
 func (h *Handler) GetAllContacts(c *gin.Context) {
 
-	err := h.repository.PrePolulateTable()
+	err := h.repository.PrePolulateTable() ///
 	if err != nil {
 		log.Printf("Error prepopulating %v", err)
 		return
