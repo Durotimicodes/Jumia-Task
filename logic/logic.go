@@ -29,9 +29,9 @@ func FindCountry(mobileNumber string) (*models.ValidateCountryInfo, error) {
 }
 
 //Get numbers that match country code
-func GetMatchingNumber(countryCode string, user []models.User) ([]models.User, error) {
+func GetMatchingNumber(countryCode string, user []*models.User) ([]*models.User, error) {
 
-	var person []models.User
+	var person []*models.User
 	for _, individualUser := range user {
 
 		newCountryCode := fmt.Sprintf(`^\(%s\)`, countryCode)
@@ -45,9 +45,9 @@ func GetMatchingNumber(countryCode string, user []models.User) ([]models.User, e
 }
 
 //Config Numb returns numbers that are configured according to country code and an error if ir exist
-func ConfigNumb(users []models.User) ([]models.ConfigureMobileNumber, error) {
+func ConfigNumb(users []*models.User) ([]*models.ConfigureMobileNumber, error) {
 
-	var configuredNumber []models.ConfigureMobileNumber
+	var configuredNumber []*models.ConfigureMobileNumber
 
 	for _, value := range users {
 
@@ -63,7 +63,7 @@ func ConfigNumb(users []models.User) ([]models.ConfigureMobileNumber, error) {
 
 		countryCode := fmt.Sprintf("+%s", country.CountryCode)
 
-		result := models.ConfigureMobileNumber{
+		result := &models.ConfigureMobileNumber{
 			Country:      country.CountryName,
 			State:        countryCode,
 			MobileNumber: mobileNumber,

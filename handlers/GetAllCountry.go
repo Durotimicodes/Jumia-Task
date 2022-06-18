@@ -1,13 +1,12 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/Durotimicodes/jumia-phone-number-task/models"
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 func (h *Handler) GetAllCountries(c *gin.Context) {
-
-	//
-	//rows, err := db.Query("SELECT * FROM user-contact")
-	//checkErr(err)
-	//
-	//fmt.Println(rows)
-
+	allCountries := models.ValidateCountries
+	c.IndentedJSON(http.StatusOK, allCountries)
 }

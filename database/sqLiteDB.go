@@ -1,6 +1,8 @@
 package database
 
 import (
+	"context"
+	"github.com/Durotimicodes/jumia-phone-number-task/logic"
 	"github.com/Durotimicodes/jumia-phone-number-task/models"
 	"gorm.io/gorm"
 	"log"
@@ -16,15 +18,6 @@ func NewSqliteDb(DB *gorm.DB) *SqLite3Db {
 		DB: DB,
 	}
 }
-
-/*
-	Cameroon| Country code = +237 | regex = \(237\)\ ?[2368]\d{7,8}$
-		Ethiopia | Country code = +251 | regex = \(251\)\ ?[1-59]\d{8}$ |
-		Morocco|Country code = +212 | regex = \(212\)\ ?[5-9]\d{8}$
-		 Mozambique| Country code = +258 | regex = \(258\)\ ?[28]\d{7,8}$
-	Uganda| Country code = +256 | regex = \(256\)\ ?\d{9}$
-	Nigeria| Country code = +234 | regex = \(234\)\ ?\d{8}$
-*/
 
 func (Sq *SqLite3Db) PrePolulateTable() error {
 
@@ -52,8 +45,11 @@ func (Sq *SqLite3Db) PrePolulateTable() error {
 		{MobileNumber: "08181338386", Country: "Mozambique", CountryCode: "+258", IsValid: false},
 
 		{MobileNumber: "08181338386", Country: "Mozambique", CountryCode: "+258", IsValid: true},
+
 		{MobileNumber: "08181338386", Country: "Mozambique", CountryCode: "+258", IsValid: false},
+
 		{MobileNumber: "08181338386", Country: "Uganda", CountryCode: "+256", IsValid: true},
+
 		{MobileNumber: "08181338386", Country: "Uganda", CountryCode: "+256", IsValid: true},
 	}
 
@@ -62,10 +58,6 @@ func (Sq *SqLite3Db) PrePolulateTable() error {
 	if err != nil {
 		log.Printf("Error PREPOPULATING %v", err)
 	}
-	//check := result.RowsAffected
-
-	//fmt.Println(check)
-
 	return nil
 
 }
@@ -80,4 +72,53 @@ func (Sq *SqLite3Db) GetAllUsers() ([]models.ContactVerification, error) {
 	return Contacts, nil
 }
 
+func (Sq *SqLite3Db) GetAllMobileNumb(c context.Context) ([]*models.User, error) {
+	var user []*models.User
 
+	if err := Sq.DB.Find(&user).Error; err != nil {
+		log.Printf("Failed to find all users  %v", err)
+		return nil, err
+	}
+
+	return user, nil
+}
+
+func (Sq *SqLite3Db) GetMobileNumbers(c context.Context, countryCode, state string) ([]*models.ConfigureMobileNumber, error) {
+
+	var mobileNum []*models.ConfigureMobileNumber
+	users, err := Sq.GetAllMobileNumb(c)
+	if err != nil {
+		log.Printf("Failed getting all mobile numbers %numb", err)
+		return nil, err
+	}
+
+	// if country countryCode not all and not empty
+	if countryCode != "all" && countryCode != "" {
+		users, err = logic.GetMatchingNumber(countryCode, users)
+		CheckError(err)
+	}
+
+	configNumb, er := logic.ConfigNumb(users)
+	CheckError(er)
+
+	// get numbers based on state
+	if state == "all" || state == "" {
+		mobileNum = configNumb
+		return nil, nil
+	}
+
+	for _, numb := range configNumb {
+		number := *numb
+		if number.State == state {
+			mobileNum = append(mobileNum, &number)
+		}
+	}
+	return mobileNum, nil
+}
+
+func CheckError(err error) {
+	if err != nil {
+		log.Printf("Failed to execute %v", err)
+		return
+	}
+}
