@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/Durotimicodes/jumia-phone-number-task/models"
+	_ "github.com/mattn/go-sqlite3"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"log"
@@ -28,4 +29,5 @@ func SetUpDBConnection() (*gorm.DB, error) {
 	}
 
 	return DB, nil
+
 }
