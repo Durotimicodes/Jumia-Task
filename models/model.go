@@ -1,6 +1,6 @@
 package models
 
-import "time"
+import "gorm.io/gorm"
 
 type User struct {
 	Id        uint   `json:"id" binding:"required"`
@@ -10,10 +10,9 @@ type User struct {
 }
 
 type ContactVerification struct {
-	ID           uint      `json:"id" binding:"required"`
-	Time         time.Time `json:"time" binding:"required"`
-	MobileNumber uint      `json:"mobile_number" binding:"required"`
-	Country      string    `json:"country" binding:"required"`
-	CountryCode  uint      `json:"country_code" binding:"required"`
-	IsValid      bool      `json:"valid" binding:"required"`
+	gorm.Model
+	MobileNumber string `json:"mobile_number" binding:"required"`
+	Country      string `json:"country" binding:"required"`
+	CountryCode  string `json:"country_code" binding:"required"`
+	IsValid      bool   `json:"valid" binding:"required"`
 }
