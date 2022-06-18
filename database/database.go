@@ -21,7 +21,7 @@ func SetUpDBConnection() (*gorm.DB, error) {
 	}
 
 	//Migrate Schema
-	er := db.AutoMigrate(&models.ContactVerification2{})
+	er := db.AutoMigrate(&models.ContactVerification{})
 	if er != nil {
 		log.Printf("Failed to migrate schema %v", er)
 		return nil, er

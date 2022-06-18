@@ -20,7 +20,7 @@ func NewSqliteDb(DB *gorm.DB) *SqLite3Db {
 
 func (Sq *SqLite3Db) PrePolulateTable() error {
 
-	ContactInfo := []*models.ContactVerification2{
+	ContactInfo := []*models.ContactVerification{
 		{Model: gorm.Model{
 			ID:        1,
 			CreatedAt: time.Now(),
@@ -73,8 +73,8 @@ func (Sq *SqLite3Db) PrePolulateTable() error {
 
 }
 
-func (Sq *SqLite3Db) GetAllUsers() ([]models.ContactVerification2, error) {
-	Contacts := []models.ContactVerification2{}
+func (Sq *SqLite3Db) GetAllUsers() ([]models.ContactVerification, error) {
+	Contacts := []models.ContactVerification{}
 
 	if er := Sq.DB.Find(&Contacts).Error; er != nil {
 		log.Printf("Failed to find all contacts %v", er)
