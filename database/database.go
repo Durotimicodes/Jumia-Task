@@ -7,25 +7,25 @@ import (
 	"log"
 )
 
-var DB *gorm.DB
+func SetUpDBConnection() (*gorm.DB, error) {
 
-func SetUpDBConnection() error {
+	var DB *gorm.DB
 
 	log.Println("Connecting Sqlite3 DB")
 
 	//Open connection
-	db, err := gorm.Open(sqlite.Open("number-verification.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("Num_verify.db"), &gorm.Config{})
 	if err != nil {
 		log.Printf("Failed to connect database %v", err)
-		return err
+		return nil, err
 	}
 
 	//Migrate Schema
-	er := db.AutoMigrate(&models.ContactVerification{})
+	er := db.AutoMigrate(&models.ContactVerification2{})
 	if er != nil {
 		log.Printf("Failed to migrate schema %v", er)
-		return er
+		return nil, er
 	}
 
-	return nil
+	return DB, nil
 }

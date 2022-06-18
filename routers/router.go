@@ -5,15 +5,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetUpRouters() error {
-
-	router := gin.Default()
+func SetUpRouters(router *gin.Engine, h *handlers.Handler) error {
 
 	apirouter := router.Group("api/v1")
 
 	apirouter.GET("/ping", handlers.HealthCheck)
+	apirouter.GET("/all/contacts", h.GetAllContacts)
 
-	router.Run() //listen and serve on localhost port 8080
 	return nil
 
 }

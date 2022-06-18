@@ -5,10 +5,10 @@ import "gorm.io/gorm"
 type User struct {
 	FirstName string `json:"first_name" binding:"required"`
 	LastName  string `json:"last_name" binding:"required"`
-	Contact   ContactVerification
+	Contact   ContactVerification2
 }
 
-type ContactVerification struct {
+type ContactVerification2 struct {
 	gorm.Model
 	MobileNumber string `json:"mobile_number" binding:"required"`
 	Country      string `json:"country" binding:"required"`
