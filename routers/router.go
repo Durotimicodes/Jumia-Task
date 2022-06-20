@@ -11,12 +11,11 @@ func SetUpRouters(router *gin.Engine, h *handlers.Handler) error {
 
 	//CORs setup
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"POST", "GET", "PUT", "PATCH", "DELETE"},
-		AllowHeaders:     []string{"*"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
+		AllowOrigins:  []string{"http://localhost:3000"},
+		AllowMethods:  []string{"POST", "GET", "PUT", "PATCH", "DELETE"},
+		AllowHeaders:  []string{"*"},
+		ExposeHeaders: []string{"Content-Length"},
+		MaxAge:        12 * time.Hour,
 	}))
 
 	//APi routes
