@@ -13,6 +13,7 @@ func FindCountry(mobileNumber string) (*models.ValidateCountryInfo, error) {
 	for _, ValCountry := range models.ValidateCountries {
 
 		newCountryCode := fmt.Sprintf(`^\(%s\)`, ValCountry.CountryCode)
+
 		checkMatched, err := regexp.Match(newCountryCode, []byte(mobileNumber))
 
 		if err != nil {
@@ -29,19 +30,22 @@ func FindCountry(mobileNumber string) (*models.ValidateCountryInfo, error) {
 }
 
 //Get numbers that match country code
-func GetMatchingNumber(countryCode string, user []*models.User) ([]*models.User, error) {
+func GetMatchingNumber(countryCode string, users []*models.User) (response []*models.User) {
 
-	var person []*models.User
-	for _, individualUser := range user {
+	for _, individualUser := range users {
 
-		newCountryCode := fmt.Sprintf(`^\(%s\)`, countryCode)
-		checkMatched, err := regexp.Match(newCountryCode, []byte(individualUser.Contact.MobileNumber))
+		user := *individualUser
 
-		if err == nil && checkMatched {
-			person = append(person, individualUser)
+		countryCodeRegex := fmt.Sprintf(`^\(%s\)`, countryCode)
+
+		match, err := regexp.Match(countryCodeRegex, []byte(user.Mobile))
+
+		if err == nil && match {
+			response = append(response, &user)
 		}
+
 	}
-	return person, nil
+	return
 }
 
 //Config Numb returns numbers that are configured according to country code and an error if ir exist
@@ -51,7 +55,7 @@ func ConfigNumb(users []*models.User) ([]*models.ConfigureMobileNumber, error) {
 
 	for _, value := range users {
 
-		country, err := FindCountry(value.Contact.MobileNumber)
+		country, err := FindCountry(value.Mobile)
 		if err != nil {
 			log.Println("Failed to find country with the phone number")
 			return nil, nil
@@ -59,17 +63,17 @@ func ConfigNumb(users []*models.User) ([]*models.ConfigureMobileNumber, error) {
 
 		regularExpr := regexp.MustCompile(`\S+$`)
 
-		mobileNumber := regularExpr.FindStringSubmatch(value.Contact.MobileNumber)[0]
+		mobileNumber := regularExpr.FindStringSubmatch(value.Mobile)[0]
 
 		countryCode := fmt.Sprintf("+%s", country.CountryCode)
 
 		result := &models.ConfigureMobileNumber{
 			Country:      country.CountryName,
-			State:        countryCode,
+			CountryCode:  countryCode,
 			MobileNumber: mobileNumber,
 		}
 
-		checkMatched, err := regexp.Match(country.RegularExp, []byte(value.Contact.MobileNumber))
+		checkMatched, err := regexp.Match(country.RegularExp, []byte(value.Mobile))
 
 		if err != nil || !checkMatched {
 			result.State = "NOK"

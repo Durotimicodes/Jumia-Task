@@ -11,6 +11,7 @@ import (
 
 func main() {
 
+	//Start up db immediately
 	db, err := database.SetUpDBConnection()
 	if err != nil {
 		log.Printf("Error setting up db connection %v", err)
@@ -20,6 +21,7 @@ func main() {
 
 	handler := handlers.NewHandler(database.NewSqliteDb(db))
 
+	//setup up router immediately
 	er := routers.SetUpRouters(router, handler)
 	if er != nil {
 		log.Printf("Error setting up router %v", er)

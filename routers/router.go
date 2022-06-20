@@ -2,17 +2,29 @@ package routers
 
 import (
 	"github.com/Durotimicodes/jumia-phone-number-task/handlers"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 func SetUpRouters(router *gin.Engine, h *handlers.Handler) error {
 
+	//CORs setup
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"POST", "GET", "PUT", "PATCH", "DELETE"},
+		AllowHeaders:     []string{"*"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
+	//APi routes
 	apirouter := router.Group("api/v1")
 
 	apirouter.GET("/ping", handlers.HealthCheck)
-	apirouter.GET("/all/contacts", h.GetAllContacts)
-	apirouter.GET("/user/countries", h.GetAllCountries)
-	apirouter.GET("/user/mobile/:state/:code", h.GetMobileNumbers)
+	apirouter.GET("/user/countries", h.GetAllCountryInfo)
+	apirouter.GET("/user/mobile/:code/:state", h.GetMobileNumbers)
 
 	return nil
 
