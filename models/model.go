@@ -3,10 +3,15 @@ package models
 import "gorm.io/gorm"
 
 type User struct {
-	Id        uint                `json:"id" binding:"required"`
-	FirstName string              `json:"first_name" binding:"required"`
-	LastName  string              `json:"last_name" binding:"required"`
-	Contact   ContactVerification `json:"contact" gorm:"embedded"`
+	ID       int    `json:"id,omitempty"`
+	UserName string `json:"user_name,omitempty"`
+	Mobile   string `json:"mobile,omitempty"`
+}
+
+type Customer struct {
+	ID       int    `json:"id,omitempty"`
+	UserName string `json:"name,omitempty"`
+	Mobile   string `json:"phone,omitempty"`
 }
 
 type ContactVerification struct {
@@ -24,18 +29,18 @@ type ValidateCountryInfo struct {
 }
 
 var ValidateCountries = []ValidateCountryInfo{
-	{CountryName: "Cameroon", CountryCode: "237", RegularExp: `\(237\)\ ?[2368]\d{7,8}$`},
+	{CountryName: "Cameroon", CountryCode: "(237)", RegularExp: `\(237\)\ ?[2368]\d{7,8}$`},
 
-	{CountryName: "Ethiopia", CountryCode: "251", RegularExp: `\(251\)\ ?[1-59]\d{8}$`},
+	{CountryName: "Ethiopia", CountryCode: "(251)", RegularExp: `\(251\)\ ?[1-59]\d{8}$`},
 
-	{CountryName: "Morocco", CountryCode: "212", RegularExp: `\(212\)\ ?[5-9]\d{8}$`},
+	{CountryName: "Morocco", CountryCode: "(212)", RegularExp: `\(212\)\ ?[5-9]\d{8}$`},
 
-	{CountryName: "Mozambique", CountryCode: "258", RegularExp: `\(258\)\ ?[28]\d{7,8}$`},
+	{CountryName: "Mozambique", CountryCode: "(258)", RegularExp: `\(258\)\ ?[28]\d{7,8}$`},
 
-	{CountryName: "Uganda", CountryCode: "256", RegularExp: `\(256\)\ ?\d{9}$`},
+	{CountryName: "Uganda", CountryCode: "(256)", RegularExp: `\(256\)\ ?\d{9}$`},
 }
 
-// ConfigureMobileNumber are mobile numbers formatted to each country
+// ConfigureMobileNumber are phone numbers configured into respective countries
 type ConfigureMobileNumber struct {
 	Country      string `json:"country" binding:"required"`
 	State        string `json:"state" binding:"required"`

@@ -3,12 +3,12 @@ package handlers
 import "github.com/Durotimicodes/jumia-phone-number-task/database"
 
 type Handler struct {
-	repository database.DBInterface
+	Repository database.DBInterface
 }
 
-//factory method
+//using factory method
 func NewHandler(repository database.DBInterface) *Handler {
 	return &Handler{
-		repository: repository,
+		Repository: repository,
 	}
 }

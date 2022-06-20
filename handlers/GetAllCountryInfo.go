@@ -6,7 +6,9 @@ import (
 	"net/http"
 )
 
-func (h *Handler) GetAllCountries(c *gin.Context) {
+func (h *Handler) GetAllCountryInfo(c *gin.Context) {
+
 	allCountries := models.ValidateCountries
+
 	c.IndentedJSON(http.StatusOK, allCountries)
 }

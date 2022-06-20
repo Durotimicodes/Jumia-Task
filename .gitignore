@@ -1,6 +1,5 @@
 .idea
 mocks
-Num_verify.db
-Num_verify.db-journal
-Num_verify.sqbpro
 node_modules
+mobileNumber.db
+mobileNumber.sqbpro

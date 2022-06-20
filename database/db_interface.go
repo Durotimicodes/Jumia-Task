@@ -5,9 +5,9 @@ import (
 	"github.com/Durotimicodes/jumia-phone-number-task/models"
 )
 
+//DBInterface housing DB methods
 type DBInterface interface {
-	PrePolulateTable() error
-	GetAllUsers() ([]models.ContactVerification, error)
-	GetAllMobileNumb(c context.Context) ([]*models.User, error)
+	GetAllMobileUsers(c context.Context) ([]*models.User, error)
+
 	GetMobileNumbers(c context.Context, countryCode, state string) ([]*models.ConfigureMobileNumber, error)
 }
