@@ -2,26 +2,27 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import _ from "lodash";
 
+
 const pageSize = 5;
 
 export default function Posts() {
 
     const [posts, setPosts] = useState([]);
 
-    const [checkValue, setCheckValue] = useState("");
+    const [checkValue, setCheckValue] = useState("OK");
 
     const [checkCountry, setCheckCountry] = useState("");
 
     const [paginatedPost, setpaginatedPost] = useState("");
 
-    const [currentPage, setCurrentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1);
 
-    let y = checkCountry
-    let x = checkValue
 
-   const url = `http://localhost:8081/api/v1/user/mobile/${y}/${x}`
+    const url = `http://localhost:8081/api/v1/user/mobile/${checkCountry}/${checkValue}`
 
+    console.log(url,"THIS THE URL")
     useEffect(()=>{
+
         axios.get(url)
 
         .then(response=>{
@@ -64,7 +65,7 @@ export default function Posts() {
     
         <select name="Country" id="country" className="filter-country"
                 value={checkCountry} onChange={(e) => setCheckCountry(e.target.value)}>
-          <option value="">Select Country</option>
+          <option>Select Country</option>
 
           <option value="237">Cameroon</option>
 
@@ -79,7 +80,7 @@ export default function Posts() {
         </select>
 
         
-        <select name="Country" id="country" className="check-valid-num" style={{marginLeft:"50px"}}
+        <select className="check-valid-num" style={{marginLeft:"50px"}}
 
         value={checkValue} onChange={(e) => setCheckValue(e.target.value)}>
             
