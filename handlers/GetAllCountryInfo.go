@@ -7,6 +7,8 @@ import (
 )
 
 func (h *Handler) GetAllCountries(c *gin.Context) {
+
 	allCountries := models.ValidateCountries
+
 	c.IndentedJSON(http.StatusOK, allCountries)
 }
